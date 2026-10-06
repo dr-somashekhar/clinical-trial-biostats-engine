@@ -8,7 +8,7 @@ This document describes the simulated variables and biological features utilized
 | `Patient_ID` | Integer | Unique cryptographic identifier for each patient | `1` to `N` |
 | `Age` | Numeric | Age of the patient at baseline enrollment | Years |
 | `Sex` | Categorical | Biological sex assigned at birth | `Male`, `Female` |
-| `Baseline_BMI` | Numeric | Body Mass Index at baseline; ~15-20% missing at random (older patients), multiply imputed | kg/m^2 |
+| `Baseline_BMI` | Numeric | Body Mass Index at baseline; ~9% missing at random (older patients), multiply imputed | kg/m^2 |
 
 ## 2. Clinical Biomarkers & Laboratory Values
 | Variable Name | Data Type | Description | Unit / Coding |

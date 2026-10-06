@@ -16,7 +16,7 @@
 # SECTION 1: LIBRARY INITIALIZATION
 # -----------------------------------------------------------------------------------------
 required_packages <- c("tidyverse", "survival", "survminer", "MatchIt", "mice",
-                       "lme4", "lmerTest", "broom.mixed", "gtsummary", "gt")
+                       "lme4", "lmerTest", "broom.mixed", "gtsummary", "gt", "smd")
 
 missing_packages <- setdiff(required_packages, rownames(installed.packages()))
 if (length(missing_packages) > 0) {
@@ -111,7 +111,7 @@ ps_formula <- Treatment ~ Age + Sex + Duration_DM_Years + Baseline_HbA1c +
 match_one <- function(data) {
   matchit(ps_formula, data = data, method = "nearest", distance = "glm",
           ratio = 1,          # 1:1 matching
-          caliper = 0.2)      # Caliper = 0.2 SD of the propensity score (logit scale)
+          caliper = 0.1)      # Caliper = 0.1 SD of the propensity score (logit scale); tight enough for |SMD| < 0.1
 }
 
 psm_models <- lapply(seq_len(n_imputations), function(i) match_one(mice::complete(imputed, i)))
@@ -155,7 +155,7 @@ km_plot <- ggsurvplot(km_fit,
                       risk.table = TRUE,
                       conf.int = TRUE,
                       palette = c("#E7B800", "#2E9FDF"),   # DPP4i, SGLT2i
-                      legend.labs = c("DPP4i", "SGLT2i"),
+                      legend.title = "Treatment", legend.labs = c("DPP4i", "SGLT2i"),
                       title = "Kaplan-Meier Curve: Freedom from MACE (SGLT2i vs. DPP4i)",
                       xlab = "Time in Months",
                       ylab = "MACE-Free Survival Probability")
